@@ -3,40 +3,53 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
+  OnModuleInit,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
+import { Client, ClientGrpc } from '@nestjs/microservices';
+import { IGrpcService } from 'src/grpc.interface';
+import { microserviceOptions } from 'src/grpc.options';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersService } from './users.service';
 
 @Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UsersController implements OnModuleInit {
+  private readonly logger = new Logger('UsersController');
+
+  @Client(microserviceOptions)
+  private client: ClientGrpc;
+
+  private grpcService: IGrpcService;
+
+  onModuleInit() {
+    this.grpcService = this.client.getService<IGrpcService>('AppController');
+  }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return '// TODO:';
   }
 
   @Get()
   findAll() {
-    return this.usersService.findAll();
-  }
+    return this.grpcService.findAllUsers({ data: '' });
+  } 
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return '// TODO:';
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+    return '// TODO:';
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+    return '// TODO:';
   }
 }
