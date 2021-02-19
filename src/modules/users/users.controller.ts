@@ -10,8 +10,8 @@ import {
   Put,
 } from '@nestjs/common';
 import { Client, ClientGrpc } from '@nestjs/microservices';
-import { IGrpcService } from 'src/grpc.interface';
-import { microserviceOptions } from 'src/grpc.options';
+import { IUsersGrpcService } from 'src/modules/users/users-grpc.interface';
+import { usersMicroserviceOptions } from 'src/modules/users/users-grpc.options';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -19,13 +19,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController implements OnModuleInit {
   private readonly logger = new Logger('UsersController');
 
-  @Client(microserviceOptions)
+  @Client(usersMicroserviceOptions)
   private client: ClientGrpc;
 
-  private grpcService: IGrpcService;
+  private grpcService: IUsersGrpcService;
 
   onModuleInit() {
-    this.grpcService = this.client.getService<IGrpcService>('AppController');
+    this.grpcService = this.client.getService<IUsersGrpcService>(
+      'UsersController',
+    );
   }
 
   @Post()
@@ -36,7 +38,7 @@ export class UsersController implements OnModuleInit {
   @Get()
   findAll() {
     return this.grpcService.findAllUsers({ data: '' });
-  } 
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

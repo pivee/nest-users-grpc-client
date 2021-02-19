@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-export interface IGrpcService {
+export interface IUsersGrpcService {
   findAllUsers(emptyString: IEmptyString): Observable<any>;
 }
 
