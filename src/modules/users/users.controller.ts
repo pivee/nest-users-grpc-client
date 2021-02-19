@@ -32,7 +32,8 @@ export class UsersController implements OnModuleInit {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return '// TODO:';
+    const createdUser = this.grpcService.createUser({ ...createUserDto });
+    return createdUser;
   }
 
   @Get()
