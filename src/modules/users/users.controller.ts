@@ -37,7 +37,7 @@ export class UsersController implements OnModuleInit {
 
   @Get()
   findAll() {
-    return this.grpcService.findAllUsers({ data: '' });
+    return this.grpcService.findAllUsers({});
   }
 
   @Get(':id')
